@@ -18,6 +18,17 @@ import androidx.core.app.NotificationManagerCompat;
 public class MainActivity extends Activity {
     NotificationManagerCompat notificationManager;
     Button showChatHead;
+    String switchState;
+
+
+    public void startNoti(){
+        if (switchState.equals("off")){
+            switchState = "on";
+        }else{
+            switchState = "off";
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +55,6 @@ public class MainActivity extends Activity {
 
         notificationManager = NotificationManagerCompat.from(this);
 
-
-//        Intent intent = getIntent();
-
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationId = 1;
@@ -62,12 +70,12 @@ public class MainActivity extends Activity {
         }
 
 
-        Intent screenIntent = new Intent(this, ScreenCoverService.class).setAction("called");
 
-        screenIntent.putExtra("called", true);
-
+        Intent screenIntent = new Intent(this, ScreenCoverService.class).setAction("on");
         PendingIntent screenPendingIntent = PendingIntent.getService(this, 0, screenIntent,0);
 
+        Intent screenIntent2= new Intent(this, ScreenCoverService.class).setAction("off");
+        PendingIntent screenPendingIntent2 = PendingIntent.getService(this, 0, screenIntent2,0);
 
 
 
@@ -76,23 +84,11 @@ public class MainActivity extends Activity {
                 .setContentTitle("hi")
                 .setContentText("lol")
                 .setOngoing(true)
-                .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Start", screenPendingIntent);
-//
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//        stackBuilder.addNextIntent(intent);
-//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-//                0,
-//                PendingIntent.FLAG_UPDATE_CURRENT
-//        );
-//        mBuilder.setContentIntent(resultPendingIntent);
-
+                .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Start", screenPendingIntent)
+                .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Stop", screenPendingIntent2);
 
 
         notificationManager.notify(notificationId, mBuilder.build());
-
-
-//        startService(new Intent(this, ScreenCoverService.class));
-
 
     }
 }
