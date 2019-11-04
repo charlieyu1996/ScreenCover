@@ -1,24 +1,29 @@
 package com.example.screencover;
 
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.service.quicksettings.Tile;
+import android.service.quicksettings.TileService;
 import android.util.Log;
 import android.widget.Toast;
 
-public class TileService extends android.service.quicksettings.TileService {
+public class CoverTile extends TileService {
     @Override
     public void onClick() {
         super.onClick();
         // called when the user click the tile
-        Log.d("Debug","Hello");
-        System.out.println("Hello");
 
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "This is a message displayed in a Toast",
-                Toast.LENGTH_SHORT);
+        Tile tile = getQsTile();
 
-        toast.show();
+        boolean isActive = (tile.getState() == Tile.STATE_ACTIVE);
+        if (isActive){
+            tile.setState(Tile.STATE_INACTIVE);
+            startActivityAndCollapse(new Intent(this, MainActivity.class));
+        }else{
+            tile.setState(Tile.STATE_ACTIVE);
+        }
 
+        tile.updateTile();
     }
 
 
@@ -33,6 +38,10 @@ public class TileService extends android.service.quicksettings.TileService {
     public void onTileAdded() {
         super.onTileAdded();
         // do something when the user add the tile
+
+        getQsTile().setState(Tile.STATE_INACTIVE);
+
+        getQsTile().updateTile();
     }
 
     @Override
@@ -40,11 +49,6 @@ public class TileService extends android.service.quicksettings.TileService {
         super.onStartListening();
         // called when the tile becomes visible
 
-        Tile t = getQsTile();
-        t.setLabel("New Label");
-        t.setState(Tile.STATE_ACTIVE);
-        t.setIcon(Icon.createWithResource(this, R.drawable.ic_fiber_smart_record_black_24dp));
-        t.updateTile();
     }
 
     @Override

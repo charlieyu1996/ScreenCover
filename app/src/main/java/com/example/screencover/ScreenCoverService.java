@@ -1,4 +1,90 @@
 package com.example.screencover;
 
-public class ScreenCoverService {
+import android.app.Service;
+import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class ScreenCoverService extends Service {
+    private WindowManager windowManager;
+    private ImageView chatHead;
+    private boolean state;
+
+    @Override
+    public IBinder onBind(Intent intent){
+        // not used
+        return null;
+    }
+
+
+
+    @Override public void onCreate() {
+        super.onCreate();
+
+
+
+        Log.d("Debug", "Cover Created");
+
+
+        state = false;
+
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+        chatHead = new ImageView(this);
+
+
+        chatHead.setImageResource(R.drawable.black);
+        chatHead.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_PHONE,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT);
+
+            params.gravity = Gravity.TOP | Gravity.LEFT;
+            params.x = 0;
+            params.y = 100;
+
+            windowManager.addView(chatHead, params);
+
+
+        }else{
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT);
+
+            params.gravity = Gravity.TOP | Gravity.LEFT;
+            params.x = 0;
+            params.y = 0;
+
+            params.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+
+            windowManager.addView(chatHead, params);
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (chatHead != null) windowManager.removeView(chatHead);
+    }
+
 }
+
