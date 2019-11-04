@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -17,15 +15,11 @@ public class ScreenCoverService extends Service {
     private ImageView chatHead;
 
     @Override
-    public IBinder onBind(Intent intent){
-        // not used
-        return null;
-    }
+    public IBinder onBind(Intent intent){ return null; }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getAction() != null && intent.getAction().equals("on")) {
-            Log.d("Debug", "It is on now");
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams(
@@ -66,11 +60,8 @@ public class ScreenCoverService extends Service {
             }
 
         }else if (intent != null && intent.getAction() != null && intent.getAction().equals("off")) {
-            Log.d("Debug", "It is off now");
             if (chatHead != null) windowManager.removeView(chatHead);
         }
-
-
 
         return START_STICKY; // or whatever floats your boat
     }
@@ -78,9 +69,6 @@ public class ScreenCoverService extends Service {
 
     @Override public void onCreate() {
         super.onCreate();
-
-        Log.d("Debug", "Cover Created");
-
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         chatHead = new ImageView(this);
@@ -102,6 +90,5 @@ public class ScreenCoverService extends Service {
         super.onDestroy();
         if (chatHead != null) windowManager.removeView(chatHead);
     }
-
 }
 

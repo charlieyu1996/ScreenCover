@@ -1,6 +1,5 @@
 package com.example.screencover;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -34,7 +33,6 @@ public class MainActivity extends Activity {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "This is a message displayed in a Toast",
                         Toast.LENGTH_SHORT);
-
                 toast.show();
                 Intent i = new Intent(getApplicationContext(), ScreenCoverService.class);
                 startService(i);
@@ -43,7 +41,6 @@ public class MainActivity extends Activity {
 
 
         notificationManager = NotificationManagerCompat.from(this);
-
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationId = 1;
@@ -58,8 +55,6 @@ public class MainActivity extends Activity {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-
-
         Intent screenIntent = new Intent(this, ScreenCoverService.class).setAction("on");
         PendingIntent screenPendingIntent = PendingIntent.getService(this, 0, screenIntent,0);
 
@@ -67,17 +62,13 @@ public class MainActivity extends Activity {
         PendingIntent screenPendingIntent2 = PendingIntent.getService(this, 0, screenIntent2,0);
 
 
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_fiber_smart_record_black_24dp)
-                .setContentTitle("hi")
-                .setContentText("lol")
+                .setContentTitle("ScreenCover")
                 .setOngoing(true)
                 .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Start", screenPendingIntent)
                 .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Stop", screenPendingIntent2);
 
-
         notificationManager.notify(notificationId, mBuilder.build());
-
     }
 }

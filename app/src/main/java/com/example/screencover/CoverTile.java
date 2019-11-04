@@ -1,18 +1,15 @@
 package com.example.screencover;
 
 import android.content.Intent;
-import android.graphics.drawable.Icon;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
-import android.util.Log;
-import android.widget.Toast;
+
 
 public class CoverTile extends TileService {
     @Override
     public void onClick() {
         super.onClick();
         // called when the user click the tile
-
         Tile tile = getQsTile();
 
         boolean isActive = (tile.getState() == Tile.STATE_ACTIVE);
