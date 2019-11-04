@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
-
+// TODO
 public class CoverTile extends TileService {
     @Override
     public void onClick() {
