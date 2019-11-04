@@ -1,5 +1,6 @@
 package com.example.screencover;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,23 +19,11 @@ import androidx.core.app.NotificationManagerCompat;
 public class MainActivity extends Activity {
     NotificationManagerCompat notificationManager;
     Button showChatHead;
-    String switchState;
-
-
-    public void startNoti(){
-        if (switchState.equals("off")){
-            switchState = "on";
-        }else{
-            switchState = "off";
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
 
         // when pressed the button
         showChatHead = findViewById(R.id.buttonNoti);

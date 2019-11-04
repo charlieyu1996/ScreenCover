@@ -24,7 +24,7 @@
         <service
             android:name=".ScreenCoverService"/>
 
-        <receiver android:name=".CoverReceiver" />
+        <receiver android:name=".CoverBroadcast" />
 
     </application>
 

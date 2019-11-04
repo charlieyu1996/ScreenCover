@@ -22,5 +22,7 @@ public class CoverBroadcast extends BroadcastReceiver {
             Intent i = new Intent(context, ScreenCoverService.class);
             context.startService(i);
         }
+
+
     }
 }
