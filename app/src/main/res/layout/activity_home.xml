@@ -9,10 +9,9 @@
         android:layout_height="wrap_content"
         android:text="This is the Screen Cover App" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/notiSwitch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CREATE NOTIFICATION"
-        android:id="@+id/buttonNoti"
-        />
+        android:text="Show Notification" />
 </LinearLayout>

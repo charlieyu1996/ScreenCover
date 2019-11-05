@@ -7,9 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -17,33 +16,18 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MainActivity extends Activity {
     NotificationManagerCompat notificationManager;
-    Button showChatHead;
+    Switch notiSwitch;
+    int notificationId = 1;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    public void cancelNoti(){
+        notificationManager.cancel(notificationId);
+    }
 
-        // when pressed the button
-        showChatHead = findViewById(R.id.buttonNoti);
-
-        showChatHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "This is a message displayed in a Toast",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                Intent i = new Intent(getApplicationContext(), ScreenCoverService.class);
-                startService(i);
-            }
-        });
-
-
+    public void createNoti(){
         notificationManager = NotificationManagerCompat.from(this);
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        int notificationId = 1;
+
         String channelId = "channel-01";
         String channelName = "Channel Name";
         // this is set to low so it will not do a heads up
@@ -54,6 +38,7 @@ public class MainActivity extends Activity {
                     channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
         }
+
 
         Intent screenIntent = new Intent(this, ScreenCoverService.class).setAction("on");
         PendingIntent screenPendingIntent = PendingIntent.getService(this, 0, screenIntent,0);
@@ -70,5 +55,30 @@ public class MainActivity extends Activity {
                 .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Stop", screenPendingIntent2);
 
         notificationManager.notify(notificationId, mBuilder.build());
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        // Create a notification that controls on and off switches
+        createNoti();
+
+
+        // when the user switches the switch
+        notiSwitch = findViewById(R.id.notiSwitch);
+        notiSwitch.setChecked(true);
+
+        notiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    createNoti();
+                } else {
+                    // The toggle is disabled
+                    cancelNoti();
+                }
+            }
+        });
     }
 }
