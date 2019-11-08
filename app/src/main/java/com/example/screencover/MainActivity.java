@@ -47,10 +47,15 @@ public class MainActivity extends Activity {
         PendingIntent screenPendingIntent2 = PendingIntent.getService(this, 0, screenIntent2,0);
 
 
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        PendingIntent mainPendingIntent = PendingIntent.getActivity(this,0, mainIntent,0);
+
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_fiber_smart_record_black_24dp)
                 .setContentTitle("ScreenCover")
                 .setOngoing(true)
+                .setContentIntent(mainPendingIntent)
                 .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Start", screenPendingIntent)
                 .addAction(R.drawable.ic_fiber_smart_record_black_24dp, "Stop", screenPendingIntent2);
 
@@ -63,6 +68,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_home);
         // Create a notification that controls on and off switches
         createNoti();
+
 
 
         // when the user switches the switch
